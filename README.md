@@ -37,31 +37,39 @@ We use the RISC-V based virtual prototyp of AGRA Uni Bremen (https://github.com/
 
 7. Build the Docker container.
 
-```> cd ~/embedded/docker
+```
+> cd ~/embedded/docker
 > docker build -t breadboard .
 ```
 8. Start an XServer and allow localhost access.
-```> xhost +localhost
+```
+> xhost +localhost
 ```
 
 9. Test an example. We need three shells now.
 
 Build an example project.
-```> cd ~/embedded/workspace/demo_gpio/
+```
+> cd ~/embedded/workspace/demo_gpio/
 > make
 ```
 There should be a file in elf demo_gpio now.
 
 Start breadboard.
-```> cd ~/embedded
+```
+> cd ~/embedded
 > bin/breadboard.sh conf/sevensegment.json
 ```
+
 Use a further shell and run 
-```> cd ~/embedded/
+```
+> cd ~/embedded/
 > bin/hifive.sh workspace/demo_gpio/demo_gpio
 ```
+
 Finally, run a gdb (after adding to your path the bin of the riscv64-unknown-elf-gcc toolchain)
-```> riscv64-unknown-elf-gdb
+```
+> riscv64-unknown-elf-gdb
 > target remote:5005
 > c
 ```
@@ -72,9 +80,13 @@ Now we should see the virtual breadboard running. Quit with q in the virtual bre
 Make a new project in Eclipse with *Makefile Project with Existing Code" and select a project in our workspace. Toolchain choose RISC-V. Create a build target for the project with the same name as the project but change to *make*. Now you can build the project. 
 
 In order to debug, we have to start a virtual prototyp. This can be done with external tools in Eclipse. We will use  scripts which we include as external tools as follows:
+
 * Name: FlashRiscvVP, Location: ${workspace_loc}/../bin/riscv.sh, Working Directory: ${workspace_loc}/../, Arguments: workspace/${project_name}/${project_name}
+
 * Name: FlashHiFiveVP Location: /usr/bin/script, Working Directory: ${workspace_loc}/../, Arguments: -Fq /dev/null /bin/sh -c "bin/hifive.sh workspace${project_path}/${project_name}"
+
 * Name: RunBreadboard, Location: /usr/bin/script, Working Directory: ${workspace_loc}/../,  Arguments:  -Fq /dev/null /bin/sh -c '${workspace_loc}/../bin/breadboard.sh conf/sevensegment.json'
+
 * Name: Kill HiFiveVP, Location: ${workspace_loc}/../bin/kill-vp.sh
 
 Note: adapt the scripts if necessary.
