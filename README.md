@@ -19,7 +19,7 @@ We use the RISC-V based virtual prototyp of AGRA Uni Bremen (https://github.com/
 
 4. Clone this project
 ```
-> git clone https://github.com/U2654/embedded.git"
+> git clone https://github.com/U2654/embedded.git
 ```
 
 5. In order to make writing Makefiles etc. easier, we will use the following directory structure. We use this directory structure in the following:

@@ -30,3 +30,6 @@
 *.exe
 *.out
 *.app
+
+# Toolchain
+riscv64-unknown-elf-gcc
