@@ -17,8 +17,9 @@ We use the RISC-V based virtual prototyp of AGRA Uni Bremen (https://github.com/
 
 3. As we will use a GUI for the virtual breadboard which runs in the container, we need an XServer, e.g. XQuartz (https://www.xquartz.org) for macOS. Please install an XServer. 
 
-4. Clone our project
-```> git clone https://github.com/U2654/embedded.git"
+4. Clone this project
+```
+> git clone https://github.com/U2654/embedded.git"
 ```
 
 5. In order to make writing Makefiles etc. easier, we will use the following directory structure. We use this directory structure in the following:
@@ -33,7 +34,7 @@ We use the RISC-V based virtual prototyp of AGRA Uni Bremen (https://github.com/
 
    *~/embedded/riscv64-unknown-elf-gcc* where we assume the GCC toolchain for RISC-V
 
-6. Furthermore, we assume the RISC-V toolchain of SiFive (https://www.sifive.com/boards, see prebuilt RISC‑V GCC Toolchain and Emulator) which must be moved to ~/embedded/riscv64-unknown-elf-gcc bewegen.
+6. Furthermore, we assume the RISC-V toolchain of SiFive (https://www.sifive.com/boards, see prebuilt RISC‑V GCC Toolchain and Emulator) which must be moved to ~/embedded/riscv64-unknown-elf-gcc.
 
 7. Build the Docker container.
 
@@ -83,18 +84,17 @@ In order to debug, we have to start a virtual prototyp. This can be done with ex
 
 * Name: FlashRiscvVP, Location: ${workspace_loc}/../bin/riscv.sh, Working Directory: ${workspace_loc}/../, Arguments: workspace/${project_name}/${project_name}
 
-* Name: FlashHiFiveVP Location: /usr/bin/script, Working Directory: ${workspace_loc}/../, Arguments: -Fq /dev/null /bin/sh -c "bin/hifive.sh workspace${project_path}/${project_name}"
+* Name: FlashHiFiveVP Location: /usr/bin/script, Working Directory: ${workspace_loc}/../, Arguments: -Fq /dev/null /bin/sh -c 'bin/hifive.sh workspace${project_path}/${project_name}'
 
 * Name: RunBreadboard, Location: /usr/bin/script, Working Directory: ${workspace_loc}/../,  Arguments:  -Fq /dev/null /bin/sh -c '${workspace_loc}/../bin/breadboard.sh conf/sevensegment.json'
 
-* Name: Kill HiFiveVP, Location: ${workspace_loc}/../bin/kill-vp.sh
+* Name: KillHiFiveVP, Location: ${workspace_loc}/../bin/kill-vp.sh
 
 Note: adapt the scripts if necessary.
 
 ## Debug a project
 
-Create debug configuration for the project as follows. Choos C/C++ Remote Application and set Project to the project name and C/C++ Application to the project name. Set Using GDB (DSF) Manual Remote Debugging. IN the Debugger tab, set GDB debugger to riscv64-unknown-elf-gdb (located in ~/embedded/riscv64-unknown-elf-gcc/bin). and Connection to Host localhost with Port number: 5005.
+Create debug configuration for the project as follows. Choose C/C++ Remote Application and set Project to the project name and C/C++ Application to the project name. Set Using GDB (DSF) Manual Remote Debugging. In the Debugger tab, set GDB debugger to riscv64-unknown-elf-gdb (located in ~/embedded/riscv64-unknown-elf-gcc/bin). and Connection to Host localhost with Port number: 5005.
 
-Done. Compile with the Build Target, Select the current project. For a RISC-V project, run the external tool FlashRiscvVP; for a HiFive-Project start a breadboard with RunBreadboard, virtually flash with FlashHiFiveVP. In both cases, start the debug configuration and continue.
-
+Done. Compile with the Build Target, Select the current project. For a RISC-V project, run the external tool FlashRiscvVP; for a HiFive-Project start a breadboard with RunBreadboard, virtually flash with FlashHiFiveVP. In both cases, start the debug configuration and continue. If something goes wrong, terminate the process with KillHiFiveVP. 
 
