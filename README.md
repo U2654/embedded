@@ -23,15 +23,15 @@ We use the RISC-V based virtual prototyp of AGRA Uni Bremen (https://github.com/
 
 5. In order to make writing Makefiles etc. easier, we will use the following directory structure. We use this directory structure in the following:
 
-*~/embedded/workspace* for our (Eclipse) projects
+   *~/embedded/workspace* for our (Eclipse) projects
 
-*~/embedded/bin* for scripts running the virtual breadboard with Docker
+   *~/embedded/bin* for scripts running the virtual breadboard with Docker
 
-*~/embedded/conf* for configuration files for virtual the virtual breadboard
+   *~/embedded/conf* for configuration files for virtual the virtual breadboard
 
-*~/embedded/docker* for our Dockerfile for building the container
+   *~/embedded/docker* for our Dockerfile for building the container
 
-*~/embedded/riscv64-unknown-elf-gcc* where we assume the GCC toolchain for RISC-V
+   *~/embedded/riscv64-unknown-elf-gcc* where we assume the GCC toolchain for RISC-V
 
 6. Furthermore, we assume the RISC-V toolchain of SiFive (https://www.sifive.com/boards, see prebuilt RISC‑V GCC Toolchain and Emulator) which must be moved to ~/embedded/riscv64-unknown-elf-gcc bewegen.
 
