@@ -31,5 +31,11 @@
 *.out
 *.app
 
+# Eclipse
+*.cproject
+*.project
+*.settings*
+
+
 # Toolchain
 riscv64-unknown-elf-gcc
