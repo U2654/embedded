@@ -31,12 +31,12 @@ int main (void)
 	volatile uint32_t i = 0;
 	while(1)
 	{
-		// toggle only red LeD
-		*(volatile uint32_t*)(GPIO_BASE + GPIO_OUTPUT_VAL) &= ~(1 << RED_LED);
+		// toggle only red LED
+		REG(GPIO_BASE + GPIO_OUTPUT_VAL) &= ~(1 << RED_LED);
 		// wait..
 		for (i = 0; i < 84210; i++){}
 
-		*(volatile uint32_t*)(GPIO_BASE + GPIO_OUTPUT_VAL) |= (1 << RED_LED);
+		REG(GPIO_BASE + GPIO_OUTPUT_VAL) |= (1 << RED_LED);
 		for (i = 0; i < 84210; i++){}
 	}
 }
