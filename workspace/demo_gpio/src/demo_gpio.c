@@ -9,6 +9,8 @@
 #include <unistd.h>
 #include "stdatomic.h"
 
+extern void _init();
+
 void reset_demo (void);
 
 // Structures for registering different interrupt handlers
@@ -49,7 +51,7 @@ void handle_m_time_interrupt(){
   volatile uint64_t * mtime       = (uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIME);
   volatile uint64_t * mtimecmp    = (uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIMECMP);
   uint64_t now = *mtime;
-  uint64_t then = now + 2 * RTC_FREQ;
+  uint64_t then = now + 2 * RTC_FREQ/4;
   *mtimecmp = then;
 
   // read the current value of the LEDS and invert them.
@@ -58,7 +60,7 @@ void handle_m_time_interrupt(){
   GPIO_REG(GPIO_OUTPUT_VAL) ^= ((0x1 << RED_LED_OFFSET)   |
 				(0x1 << GREEN_LED_OFFSET) |
 				(0x1 << BLUE_LED_OFFSET));
-  
+
   // Re-enable the timer interrupt.
   set_csr(mie, MIP_MTIP);
 
@@ -101,7 +103,7 @@ for GPIO speed demonstration.\n\
 
 void print_instructions() {
 
-  write (STDOUT_FILENO, instructions_msg, strlen(instructions_msg));
+//  write (STDOUT_FILENO, instructions_msg, strlen(instructions_msg));
 
 }
 
@@ -180,7 +182,7 @@ void reset_demo (){
     volatile uint64_t * mtime       = (uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIME);
     volatile uint64_t * mtimecmp    = (uint64_t*) (CLINT_CTRL_ADDR + CLINT_MTIMECMP);
     uint64_t now = *mtime;
-    uint64_t then = now + 2*RTC_FREQ;
+    uint64_t then = now + 2*RTC_FREQ/4;
     *mtimecmp = then;
 
     // Enable the Machine-External bit in MIE
@@ -195,9 +197,10 @@ void reset_demo (){
 
 int main(int argc, char **argv)
 {
+  _init();
   // Set up the GPIOs such that the LED GPIO
   // can be used as both Inputs and Outputs.
-  
+
 
 #ifdef HAS_BOARD_BUTTONS
   GPIO_REG(GPIO_OUTPUT_EN)  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
@@ -210,9 +213,9 @@ int main(int argc, char **argv)
   GPIO_REG(GPIO_OUTPUT_VAL)  |=   (0x1 << BLUE_LED_OFFSET) ;
   GPIO_REG(GPIO_OUTPUT_VAL)  &=  ~((0x1<< RED_LED_OFFSET) | (0x1<< GREEN_LED_OFFSET)) ;
 
-  
+
   // For Bit-banging with Atomics demo.
-  
+
   uint32_t bitbang_mask = 0;
 #ifdef _SIFIVE_HIFIVE1_H
   bitbang_mask = (1 << PIN_19_OFFSET);
@@ -223,7 +226,7 @@ int main(int argc, char **argv)
 #endif
 
   GPIO_REG(GPIO_OUTPUT_EN) |= bitbang_mask;
-  
+
   /**************************************************************************
    * Set up the PLIC
    *
@@ -238,11 +241,11 @@ int main(int argc, char **argv)
   /**************************************************************************
    * Demonstrate fast GPIO bit-banging.
    * One can bang it faster than this if you know
-   * the entire OUTPUT_VAL that you want to write, but 
+   * the entire OUTPUT_VAL that you want to write, but
    * Atomics give a quick way to control a single bit.
    *************************************************************************/
   // For Bit-banging with Atomics demo.
-  
+
   while (1){
     atomic_fetch_xor_explicit(&GPIO_REG(GPIO_OUTPUT_VAL), bitbang_mask, memory_order_relaxed);
   }
