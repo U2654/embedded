@@ -20,9 +20,6 @@
 
 extern void trap_entry();
 
-
-extern void trap_entry();
-
 void reset_demo (void);
 
 // Structures for registering different interrupt handlers
@@ -37,17 +34,6 @@ function_ptr_t g_ext_interrupt_handlers[PLIC_NUM_INTERRUPTS];
 // Instance data for the PLIC.
 plic_instance_t g_plic;
 
-// use for terminal output instead of libwrap
-static void _putc(char c) {
-  while ((int32_t) UART0_REG(UART_REG_TXFIFO) < 0);
-  UART0_REG(UART_REG_TXFIFO) = c;
-}
-
-static void _puts(const char * s) {
-  while (*s != '\0'){
-    _putc(*s++);
-  }
-}
 
 /*Entry Point for PLIC Interrupt Handler*/
 void handle_m_ext_interrupt(){
@@ -89,15 +75,8 @@ void handle_m_time_interrupt(){
 }
 
 
-void print_instructions() {
-
-	_puts("So far everything is ok.");
-
-}
-
 #ifdef HAS_BOARD_BUTTONS
 void button_0_handler(void) {
-	_puts("b0!");
   // Red LED on
   GPIO_REG(GPIO_OUTPUT_VAL) |= (0x1 << RED_LED_OFFSET);
 
@@ -107,7 +86,6 @@ void button_0_handler(void) {
 };
 
 void button_1_handler(void) {
-	_puts("b1!");
   // Green LED On
   GPIO_REG(GPIO_OUTPUT_VAL) |= (1 << GREEN_LED_OFFSET);
 
@@ -118,7 +96,6 @@ void button_1_handler(void) {
 
 
 void button_2_handler(void) {
-	_puts("b2!");
   // Blue LED On
   GPIO_REG(GPIO_OUTPUT_VAL) |= (1 << BLUE_LED_OFFSET);
 
@@ -142,11 +119,6 @@ void reset_demo (){
   g_ext_interrupt_handlers[INT_DEVICE_BUTTON_0] = button_0_handler;
   g_ext_interrupt_handlers[INT_DEVICE_BUTTON_1] = button_1_handler;
   g_ext_interrupt_handlers[INT_DEVICE_BUTTON_2] = button_2_handler;
-#endif
-
-  print_instructions();
-
-#ifdef HAS_BOARD_BUTTONS
 
   // Have to enable the interrupt both at the GPIO level,
   // and at the PLIC level.
@@ -177,7 +149,7 @@ void reset_demo (){
     set_csr(mie, MIP_MEIP);
 
     // Enable the Machine-Timer bit in MIE
-    //set_csr(mie, MIP_MTIP);
+//    set_csr(mie, MIP_MTIP);
 
     // Enable interrupts in general.
     set_csr(mstatus, MSTATUS_MIE);
