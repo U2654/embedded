@@ -34,7 +34,6 @@ function_ptr_t g_ext_interrupt_handlers[PLIC_NUM_INTERRUPTS];
 // Instance data for the PLIC.
 plic_instance_t g_plic;
 
-
 /*Entry Point for PLIC Interrupt Handler*/
 void handle_m_ext_interrupt(){
   plic_source int_num  = PLIC_claim_interrupt(&g_plic);
@@ -78,30 +77,30 @@ void handle_m_time_interrupt(){
 #ifdef HAS_BOARD_BUTTONS
 void button_0_handler(void) {
   // Red LED on
-  GPIO_REG(GPIO_OUTPUT_VAL) |= (0x1 << RED_LED_OFFSET);
+  GPIO_REG(GPIO_OUTPUT_VAL) ^= (0x1 << RED_LED_OFFSET);
 
   // Clear the GPIO Pending interrupt by writing 1.
-  GPIO_REG(GPIO_RISE_IP) = (0x1 << BUTTON_0_OFFSET);
+  GPIO_REG(GPIO_FALL_IP) |= (0x1 << BUTTON_0_OFFSET);
 
-};
+}
 
 void button_1_handler(void) {
   // Green LED On
-  GPIO_REG(GPIO_OUTPUT_VAL) |= (1 << GREEN_LED_OFFSET);
+  GPIO_REG(GPIO_OUTPUT_VAL) ^= (1 << GREEN_LED_OFFSET);
 
   // Clear the GPIO Pending interrupt by writing 1.
-  GPIO_REG(GPIO_RISE_IP) = (0x1 << BUTTON_1_OFFSET);
+  GPIO_REG(GPIO_FALL_IP) |= (0x1 << BUTTON_1_OFFSET);
 
-};
+}
 
 
 void button_2_handler(void) {
   // Blue LED On
-  GPIO_REG(GPIO_OUTPUT_VAL) |= (1 << BLUE_LED_OFFSET);
+  GPIO_REG(GPIO_OUTPUT_VAL) ^= (1 << BLUE_LED_OFFSET);
 
-  GPIO_REG(GPIO_RISE_IP) = (0x1 << BUTTON_2_OFFSET);
+  GPIO_REG(GPIO_FALL_IP) |= (0x1 << BUTTON_2_OFFSET);
 
-};
+}
 #endif
 
 void reset_demo (){
@@ -131,9 +130,9 @@ void reset_demo (){
   PLIC_set_priority(&g_plic, INT_DEVICE_BUTTON_1, 1);
   PLIC_set_priority(&g_plic, INT_DEVICE_BUTTON_2, 1);
 
-  GPIO_REG(GPIO_RISE_IE) |= (1 << BUTTON_0_OFFSET);
-  GPIO_REG(GPIO_RISE_IE) |= (1 << BUTTON_1_OFFSET);
-  GPIO_REG(GPIO_RISE_IE) |= (1 << BUTTON_2_OFFSET);
+  GPIO_REG(GPIO_FALL_IE) |= (1 << BUTTON_0_OFFSET);
+  GPIO_REG(GPIO_FALL_IE) |= (1 << BUTTON_1_OFFSET);
+  GPIO_REG(GPIO_FALL_IE) |= (1 << BUTTON_2_OFFSET);
 
 #endif
 
@@ -149,7 +148,7 @@ void reset_demo (){
     set_csr(mie, MIP_MEIP);
 
     // Enable the Machine-Timer bit in MIE
-//    set_csr(mie, MIP_MTIP);
+    set_csr(mie, MIP_MTIP);
 
     // Enable interrupts in general.
     set_csr(mstatus, MSTATUS_MIE);
@@ -165,7 +164,8 @@ int main(int argc, char **argv)
 
 #ifdef HAS_BOARD_BUTTONS
   GPIO_REG(GPIO_OUTPUT_EN)  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
-  GPIO_REG(GPIO_PULLUP_EN)  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
+  //GPIO_REG(GPIO_PULLUP_EN)  &= ~((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
+  GPIO_REG(GPIO_PULLUP_EN)   |=  ((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
   GPIO_REG(GPIO_INPUT_EN)   |=  ((0x1 << BUTTON_0_OFFSET) | (0x1 << BUTTON_1_OFFSET) | (0x1 << BUTTON_2_OFFSET));
 #endif
 
