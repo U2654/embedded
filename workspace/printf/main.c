@@ -1,9 +1,0 @@
-#include "stdio.h"
-#include "errno.h"
-#include "string.h"
-#include "unistd.h"
-
-int main(int argc, char **argv) {
-	printf("Hello World\n");
-	return 0;
-}
