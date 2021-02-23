@@ -75,12 +75,8 @@ We use the RISC-V based virtual prototyp of AGRA Uni Bremen (https://github.com/
 	code &
 	```
 	In vscode open the folder \~/embedded/workspace/led and then the file led.c. Run the example using the gui (piodebug). You should see a blinking led in the vp-breadboard. 
-	![Screenshot]()(./screenshot.png)
+	![Screenshot](screenshot.png)
 	**Note:** Sometimes the debug interface hangs. Then terminate the hifive-vp manually.
 	```bash
 	killall hifive-vp
 	```
-
-
-
-
