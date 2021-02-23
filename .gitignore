@@ -36,6 +36,5 @@
 *.project
 *.settings*
 
-
-# Toolchain
-riscv64-unknown-elf-gcc
+# elf 
+*.elf
