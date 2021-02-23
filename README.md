@@ -20,51 +20,65 @@ We use the RISC-V based virtual prototyp of AGRA Uni Bremen (https://github.com/
 	The following extension are useful but optional:
 
 	 - GNU Linker Map files
-	   - hexdump for VSCode
+	  - hexdump for VSCode
 	- Intel HEX format
 	- LinkerScript
 	- RISC-V Support
 	- C/C++ Advanced Lint
 
 3. Clone this project with submodules (in a terminal shell, use bash). It will take some time. We put everything in the home directory. Adapt the following steps for another destination. 
-		cd ~
-		git clone https://github.com/U2654/embedded.git
-		cd embedded
-		cd riscv-gnu-toolchain
-		git submodule update --init --recursive
-		cd ../riscv-vp
-		git submodule update --init vp/src/core/common/gdb-mc/libgdb/mpc
+	```bash
+	cd ~
+	git clone https://github.com/U2654/embedded.git
+	cd embedded
+	cd riscv-gnu-toolchain
+	git submodule update --init --recursive
+	cd ../riscv-vp
+	git submodule update --init vp/src/core/common/gdb-mc/libgdb/mpc
+	```
 
 4. Build toolchain (will take some time, too) with the steps:
 	- riscv-gnu-toolchain (riscv32 would be sufficient, however, we build multilib)
-		cd ../riscv-gnu-toolchain
-		./configure --prefix=$(pwd)/build --enable-multilib
-		make
+	```bash
+	cd ../riscv-gnu-toolchain
+	./configure --prefix=$(pwd)/build --enable-multilib
+	make
+	```
 	- riscv-vp
-		cd ../riscv-vp/vp/dependencies
-		./build_systemc_233.sh
-		./build_softfloat.sh
-		cd ..
-		mkdir build
-		cd build
-		cmake ..
-		make install
+	```bash
+	cd ../riscv-vp/vp/dependencies
+	./build_systemc_233.sh
+	./build_softfloat.sh
+	cd ..
+	mkdir build
+	cd build
+	cmake ..
+	make install
+	```
 	- vp-breadboard
-		cd ../../env/hifive/vp-breadboard
-		cmake .
-		make
+	```bash
+	cd ../../env/hifive/vp-breadboard
+	cmake .
+	make
+	```
 
 5. Set environment variables (for bash, append to .bashrc in home).
-		export PATH=~/embedded/riscv-gnu-toolchain/build/bin:$PATH
-		export PATH=~/embedded/riscv-vp/vp/build/bin:$PATH
-		export PATH=~/embedded/riscv-vp/env/hifive/vp-breadboard:$PATH
+	```bash
+	export PATH=~/embedded/riscv-gnu-toolchain/build/bin:$PATH
+	export PATH=~/embedded/riscv-vp/vp/build/bin:$PATH
+	export PATH=~/embedded/riscv-vp/env/hifive/vp-breadboard:$PATH
+	```
 
 6. Again in the shell, check if everything works and build an example project. Start a vp-breadboard and vscode in the shell.
-		vp-breadboard -c :conf/sevensegment.json &
-		code &
+	```bash
+	vp-breadboard -c :conf/sevensegment.json &
+	code &
+	```
 	In vscode open the folder \~/embedded/workspace/led and then the file led.c. Run the example using the gui (piodebug). You should see a blinking led in the vp-breadboard. 
 	**Note:** Sometimes the debug interface hangs. Then terminate the hifive-vp manually.
-		killall hifive-vp
+	```bash
+	killall hifive-vp
+	```
 
 
 
