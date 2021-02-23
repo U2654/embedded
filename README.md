@@ -30,10 +30,10 @@ We use the RISC-V based virtual prototyp of AGRA Uni Bremen (https://github.com/
 	```bash
 	cd ~
 	git clone https://github.com/U2654/embedded.git
-	cd embedded
-	cd riscv-gnu-toolchain
-	git submodule update --init --recursive
-	cd ../riscv-vp
+	cd embedded	
+	git submodule update --init --recursive riscv-gnu-toolchain
+	git submodule update --init riscv-vp
+	cd riscv-vp
 	git submodule update --init vp/src/core/common/gdb-mc/libgdb/mpc
 	```
 
@@ -76,6 +76,7 @@ We use the RISC-V based virtual prototyp of AGRA Uni Bremen (https://github.com/
 	```
 	In vscode open the folder \~/embedded/workspace/led and then the file led.c. Run the example using the gui (piodebug). You should see a blinking led in the vp-breadboard. 
 	![Screenshot](screenshot.png)
+
 	**Note:** Sometimes the debug interface hangs. Then terminate the hifive-vp manually.
 	```bash
 	killall hifive-vp
