@@ -60,6 +60,11 @@ We use the RISC-V based virtual prototyp of AGRA Uni Bremen (https://github.com/
 		export PATH=~/embedded/riscv-vp/env/hifive/vp-breadboard:$PATH
 
 6. Again in the shell, check if everything works and build an example project. Start a vp-breadboard and vscode in the shell.
-		vp-breadboard &
+		vp-breadboard -c :conf/sevensegment.json &
 		code &
+	In vscode open the folder \~/embedded/workspace/led and then the file led.c. Run the example using the gui (piodebug). You should see a blinking led in the vp-breadboard. 
+	**Note:** Sometimes the debug interface hangs. Then terminate the hifive-vp manually.
+		killall hifive-vp
+
+
 
