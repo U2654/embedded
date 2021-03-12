@@ -59,8 +59,8 @@ We use the RISC-V based virtual prototyp of AGRA Uni Bremen (https://github.com/
 	```
 	- vp-breadboard
 	```bash
-	cd ../../env/hifive/vp-breadboard
-	cmake .
+	cd ../../env/redv/vp-redboard
+	qmake 
 	make
 	```
 
@@ -68,18 +68,20 @@ We use the RISC-V based virtual prototyp of AGRA Uni Bremen (https://github.com/
 	```bash
 	export PATH=~/.platformio/packages/toolchain-riscv/bin:$PATH
 	export PATH=~/embedded/riscv-vp/vp/build/bin:$PATH
-	export PATH=~/embedded/riscv-vp/env/hifive/vp-breadboard:$PATH
+	export PATH=~/embedded/riscv-vp/env/redv/vp-redboard:$PATH
 	```
 
 7. Again in the shell, check if everything works and build an example project. Start a vp-breadboard and vscode in the shell.
 	```bash
-	vp-breadboard -c :conf/sevensegment.json &
+	vp-redboard &
 	code &
 	```
-	In vscode open the folder \~/embedded/workspace/led and then the file led.c. Run the example using the gui (piodebug). You should see a blinking led in the vp-breadboard. 
+	In vscode, open the folder \~/embedded/workspace/leduart and then the file leduart.c. Run the example using the gui (piodebug). 
+
+	Open the preferences using the gui in vp-redboard. Choose the data path where config files etc. is located, this should be `~/embedded/risc-vp/env/redv/` and click ok. Open the `sevensegment.json` file. 
+	Push the connect button (second from left hand side). You should see a blinking led in the vp-redboard. 
 	![Screenshot](screenshot.png)
 
-	**Note:** Sometimes the debug interface hangs. Then terminate the hifive-vp manually.
-	```bash
-	killall hifive-vp
-	```
+	
+	
+

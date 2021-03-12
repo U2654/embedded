@@ -141,7 +141,7 @@ int main(int argc, char **argv)
 
 	// show chip id
 	uint8_t chip_id = i2c_read(0xd0);
-	printf("chip id:%u \n", chip_id);
+	printf("chip id is %u \n", chip_id);
 
 	// config: iir off, standby 500ms, i2c 
 	// meas: osrs_p: skip, osrs_t: 1, normal mode 
