@@ -1,5 +1,3 @@
-// Hello World Blinky
-
 typedef unsigned int uint32_t;
 
 #define REG(P) (*(volatile uint32_t *) (P))
@@ -8,23 +6,14 @@ typedef unsigned int uint32_t;
 #define GPIO_INPUT_EN 0x4
 #define GPIO_OUTPUT_EN 0x8
 #define GPIO_OUTPUT_VAL 0xc
+#define GPIO_IOF_EN 0x38
 
-#define RED_LED 22 
-//22
-#define GREEN_LED 19
-#define BLUE_LED 21
+#define BLUE_LED 5
 
 int main (void)
 {
-	// setup LEDs as output
-	REG(GPIO_BASE + GPIO_INPUT_EN) &= ~(1 << RED_LED);
-	REG(GPIO_BASE + GPIO_OUTPUT_EN) |= 1 << RED_LED;
-	REG(GPIO_BASE + GPIO_OUTPUT_VAL) |= (1 << RED_LED);
-
-	REG(GPIO_BASE + GPIO_INPUT_EN) &= ~(1 << GREEN_LED);
-	REG(GPIO_BASE + GPIO_OUTPUT_EN) |= 1 << GREEN_LED;
-	REG(GPIO_BASE + GPIO_OUTPUT_VAL) |= (1 << GREEN_LED);
-
+	// setup LED as output
+	REG(GPIO_BASE + GPIO_IOF_EN) &= ~(1 << BLUE_LED);
 	REG(GPIO_BASE + GPIO_INPUT_EN) &= ~(1 << BLUE_LED);
 	REG(GPIO_BASE + GPIO_OUTPUT_EN) |= 1 << BLUE_LED;
 	REG(GPIO_BASE + GPIO_OUTPUT_VAL) |= (1 << BLUE_LED);
@@ -32,16 +21,12 @@ int main (void)
 	volatile uint32_t i = 0;
 	while(1)
 	{
-		// toggle only red LED
-		REG(GPIO_BASE + GPIO_OUTPUT_VAL) &= ~(1 << RED_LED);
-		REG(GPIO_BASE + GPIO_OUTPUT_VAL) &= ~(1 << GREEN_LED);
+	// toggle only blue LED
 		REG(GPIO_BASE + GPIO_OUTPUT_VAL) &= ~(1 << BLUE_LED);
-		// wait..
-		for (i = 0; i < 4210; i++){}
+	// wait..
+	 	for (i = 0; i < 184210; i++){}
 
-		REG(GPIO_BASE + GPIO_OUTPUT_VAL) |= (1 << RED_LED);
-		REG(GPIO_BASE + GPIO_OUTPUT_VAL) |= (1 << GREEN_LED);
 		REG(GPIO_BASE + GPIO_OUTPUT_VAL) |= (1 << BLUE_LED);
-		for (i = 0; i < 4210; i++){}
+		for (i = 0; i < 184210; i++){}
 	}
 }
