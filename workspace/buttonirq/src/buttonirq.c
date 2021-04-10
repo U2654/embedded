@@ -1,5 +1,4 @@
 // Press button for led
-
 typedef unsigned int uint32_t;
 
 #define REG(P) (*(volatile uint32_t *) (P))
@@ -58,7 +57,7 @@ void irq_handler()
 
 void init_irq()
 {
-    // PLIC, 51 sources, 7 priorities
+    // PLIC, 52 sources, 7 priorities
     // all off
     REG(PLIC_BASE + PLIC_ENABLE) = 0;
     REG(PLIC_BASE + PLIC_ENABLE + 4) = 0;
@@ -99,4 +98,9 @@ int main (void)
 	{
 		asm volatile("wfi");
 	}
+}
+
+void _exit()
+{
+	
 }

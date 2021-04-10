@@ -21,6 +21,7 @@ SECTIONS
 
   .text :
   {
+    *(.init .init.*)
     *(.text .text.*)
   } >flash AT>flash : flash
 
@@ -54,7 +55,8 @@ SECTIONS
   . = ALIGN(8);
   PROVIDE(_bssend = .);
   PROVIDE( _end = . );
-
+    
+  . = ALIGN(16);
    .stack ORIGIN(ram) + LENGTH(ram) - __stack_size :
   {
     PROVIDE( _heap_end = . );
