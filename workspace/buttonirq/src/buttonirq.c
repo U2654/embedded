@@ -99,8 +99,3 @@ int main (void)
 		asm volatile("wfi");
 	}
 }
-
-void _exit()
-{
-	
-}
