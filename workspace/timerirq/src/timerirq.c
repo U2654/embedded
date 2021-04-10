@@ -7,6 +7,7 @@
 #define GPIO_INPUT_EN 0x4
 #define GPIO_OUTPUT_EN 0x8
 #define GPIO_OUTPUT_VAL 0xc
+#define GPIO_IOF_EN 0x38
 
 #define CLINT_CTRL_ADDR 0x02000000
 #define CLINT_MTIME 0xbff8
@@ -49,6 +50,8 @@ void irq_handler()
 
 int main (void)
 {
+	// setup LED as output
+	REG(GPIO_BASE + GPIO_IOF_EN) &= ~(1 << BLUE_LED);
 	REG(GPIO_BASE + GPIO_INPUT_EN) &= ~(1 << BLUE_LED);
 	REG(GPIO_BASE + GPIO_OUTPUT_EN) |= 1 << BLUE_LED;
 	REG(GPIO_BASE + GPIO_OUTPUT_VAL) |= (1 << BLUE_LED);
