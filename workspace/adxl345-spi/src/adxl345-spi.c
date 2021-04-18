@@ -53,9 +53,9 @@ int main(int argc, char **argv)
 	// cs mode hold for transfer, see ch. 19.8
     SPI1_REG(SPI_REG_CSMODE) = SPI_CSMODE_HOLD;
 	spi_transfer(0x31);
-	spi_transfer(0x01);
+	spi_transfer(0x01); // range 4g
 	spi_transfer(0x2d);
-	spi_transfer(0x08);
+	spi_transfer(0x08); // measure
 
 	uint8_t r[6];
 	while(1)

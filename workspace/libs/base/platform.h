@@ -17,6 +17,7 @@
 #include "sifive/devices/pwm.h"
 #include "sifive/devices/spi.h"
 #include "sifive/devices/uart.h"
+#include "sifive/devices/i2c.h"
 
 /****************************************************************************
  * Platform definitions
