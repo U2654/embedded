@@ -82,7 +82,7 @@ uint8_t i2c_readReg(const uint8_t f_addr)
 	if ( (I2C_REG(I2C0_STATUS) & (1 << I2C_STAT_RXACK)))
 		return 0;
 
-	// write addr
+	// write reg addr
 	I2C_REG(I2C0_TRANSMIT) = f_addr;
 	I2C_REG(I2C0_COMMAND) = (1 << I2C_CMD_WR) | (1 << I2C_CMD_STO);
 
@@ -112,6 +112,7 @@ uint8_t i2c_readReg(const uint8_t f_addr)
 
 int main(int argc, char **argv)
 {
+	uart_init();
 	i2c_init();
 
 	i2c_writeReg(0x31, 0x01); // range 4g
