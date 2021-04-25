@@ -17,11 +17,16 @@
   Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  
   Modified 2012 by Todd Krein (todd@krein.org) to implement repeated starts
+  
+  04/2021 examplary implementation of few functions for fe310 by matt koenig.
 */
 
 #include <string.h> // for memcpy
 //#include "HardwareSerial.h"
 #include "Wire.h"
+
+#include "encoding.h"
+#include "platform.h"
 
 uint8_t TwoWire::rxBuffer[BUFFER_LENGTH];
 uint8_t TwoWire::rxBufferIndex = 0;
@@ -41,11 +46,20 @@ TwoWire::TwoWire()
 
 void TwoWire::begin(void)
 {
+	// set up gpio pins to i2c use
+	GPIO_REG(GPIO_IOF_SEL) &= ~((1 << IOF_I2C_SCL) | (1 << IOF_I2C_SDA));
+	GPIO_REG(GPIO_IOF_EN)  |= ((1 << IOF_I2C_SCL) | (1 << IOF_I2C_SDA));
+    setClock(100000);
 }
 
+// ignored frequency, set to 100khz
 void TwoWire::setClock(uint32_t frequency)
 {
-
+	// prescaler to 100 kHz
+	I2C_REG(I2C0_CONTROL) &= ~(1 << I2C_CTRL_EN);
+	I2C_REG(I2C0_PRESCALE_HIGH) = 0x00;
+	I2C_REG(I2C0_PRESCALE_LOW) = 0x1F; // = 100kHz
+	I2C_REG(I2C0_CONTROL) |= (1 << I2C_CTRL_EN);
 }
 
 void TwoWire::begin(uint8_t address)
@@ -54,36 +68,75 @@ void TwoWire::begin(uint8_t address)
 
 void TwoWire::beginTransmission(uint8_t address)
 {
-	txBuffer[0] = (address << 1);
-	transmitting = 1;
-	txBufferLength = 1;
+	I2C_REG(I2C0_TRANSMIT) = (address << 1);
+	I2C_REG(I2C0_COMMAND) = (1 << I2C_CMD_STA) | (1 << I2C_CMD_WR);
+
+	// wait
+	while (I2C_REG(I2C0_STATUS) & (1 << I2C_STAT_TIP));
+	if ( (I2C_REG(I2C0_STATUS) & (1 << I2C_STAT_RXACK)))
+		return;
+
+//	txBuffer[0] = (address << 1);
+//	transmitting = 1;
+//	txBufferLength = 1;
 }
 
 size_t TwoWire::write(uint8_t data)
 {
+	// write reg add
+	I2C_REG(I2C0_TRANSMIT) = data;
+	I2C_REG(I2C0_COMMAND) = (1 << I2C_CMD_WR) | (1 << I2C_CMD_STO);
+
+	// wait
+	while (I2C_REG(I2C0_STATUS) & (1 << I2C_STAT_TIP));
+	if ( (I2C_REG(I2C0_STATUS) & (1 << I2C_STAT_RXACK)))
+		return 1;
 
 }
 
 size_t TwoWire::write(const uint8_t *data, size_t quantity)
 {
-
 }
 
 void TwoWire::flush(void)
 {
-
 }
 
 
 uint8_t TwoWire::endTransmission(uint8_t sendStop)
 {
-
+	return 0;
 }
 
 
 uint8_t TwoWire::requestFrom(uint8_t address, uint8_t length, uint8_t sendStop)
 {
+	// send read request
+	I2C_REG(I2C0_TRANSMIT) = (address << 1) | 0x1;
+	I2C_REG(I2C0_COMMAND) = (1 << I2C_CMD_STA) | (1 << I2C_CMD_WR);
 
+	// wait
+	while (I2C_REG(I2C0_STATUS) & (1 << I2C_STAT_TIP));
+
+  for (uint8_t i = 0; i < length; ++i)
+  {
+    // read, ack and end
+	if (i == length-1)
+	{
+	  I2C_REG(I2C0_COMMAND) = (1 << I2C_CMD_RD ) | ( 1 << I2C_CMD_ACK) | (1 << I2C_CMD_STO);		
+	}
+	else 
+	{
+		    I2C_REG(I2C0_COMMAND) = (1 << I2C_CMD_RD );
+	}
+
+    // wait
+    while (I2C_REG(I2C0_STATUS) & (1 << I2C_STAT_TIP));
+
+    rxBuffer[i] = I2C_REG(I2C0_RECEIVE);
+  }
+  rxBufferIndex = 0;
+  return length;
 }
 
 int TwoWire::available(void)
@@ -93,7 +146,7 @@ int TwoWire::available(void)
 
 int TwoWire::read(void)
 {
-  return 0;
+  return rxBuffer[rxBufferIndex++];
 }
 
 int TwoWire::peek(void)
