@@ -1,0 +1,4 @@
+{
+  "script": "misra",
+  "args": ["--rule-texts=misra-rules.txt"]
+}
