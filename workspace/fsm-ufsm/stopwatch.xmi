@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xmi:XMI xmi:version="2.1" xmlns:uml="http://schema.omg.org/spec/UML/2.0" xmlns:xmi="http://schema.omg.org/spec/XMI/2.1">
+	<xmi:Documentation exporter="StarUML" exporterVersion="2.0"/>
+	<uml:Model xmi:id="AAAAAAF5LIAQUobDq3s=" xmi:type="uml:Model" name="RootModel">
+		<packagedElement xmi:id="AAAAAAFF+qBWK6M3Z8Y=" name="Model" visibility="public" xmi:type="uml:Model"/>
+		<packagedElement xmi:id="AAAAAAF4+qj8TIuZtIk=" name="StateMachine1" visibility="public" isReentrant="true" xmi:type="uml:StateMachine">
+			<region xmi:id="AAAAAAF4+qj8TYua7rM=" visibility="public" xmi:type="uml:Region">
+				<subvertex xmi:id="AAAAAAF4+qkmGIugg18=" name="Active" visibility="public" xmi:type="uml:State">
+					<region xmi:id="AAAAAAF4+qkmGIuhzBg=" visibility="public" xmi:type="uml:Region">
+						<subvertex xmi:id="AAAAAAF4+qn144v0+uA=" name="Running" visibility="public" xmi:type="uml:State"/>
+						<subvertex xmi:id="AAAAAAF4+qnaYIvOtKk=" name="Stopped" visibility="public" xmi:type="uml:State"/>
+						<subvertex xmi:id="AAAAAAF4+qp0rIww2cU=" visibility="public" xmi:type="uml:Pseudostate" kind="initial"/>
+					</region>
+				</subvertex>
+				<subvertex xmi:id="AAAAAAF4+qpXXIwfY1s=" visibility="public" xmi:type="uml:Pseudostate" kind="initial"/>
+				<transition xmi:id="AAAAAAF4+qqfQYxEj3M=" visibility="public" xmi:type="uml:Transition" source="AAAAAAF4+qpXXIwfY1s=" target="AAAAAAF4+qkmGIugg18=" kind="external"/>
+				<transition xmi:id="AAAAAAF4+qrWJIxZH8E=" visibility="public" xmi:type="uml:Transition" source="AAAAAAF4+qp0rIww2cU=" target="AAAAAAF4+qnaYIvOtKk=" kind="external"/>
+				<transition xmi:id="AAAAAAF4+quNOIyAmWs=" visibility="public" xmi:type="uml:Transition" source="AAAAAAF4+qn144v0+uA=" target="AAAAAAF4+qnaYIvOtKk=" kind="external">
+					<ownedMember xmi:id="AAAAAAF4+qvdGYyZ0ME=" name="startstop" visibility="public" xmi:type="uml:AnyReceiveEvent"/>
+					<trigger xmi:id="AAAAAAF5LIAQU4bEl+c=" xmi:type="uml:Trigger" name="startstop" event="AAAAAAF4+qvdGYyZ0ME="/>
+					<trigger xmi:id="AAAAAAF4+qvdGYyZ0ME=" name="startstop" visibility="public" xmi:type="uml:AnyReceiveEvent"/>
+					<effect xmi:id="AAAAAAF5Ikz8N42xN2k=" name="stopTime" visibility="public" isReentrant="true" xmi:type="uml:OpaqueBehavior"/>
+				</transition>
+				<transition xmi:id="AAAAAAF4+q6JSYzAYrM=" visibility="public" xmi:type="uml:Transition" source="AAAAAAF4+qkmGIugg18=" target="AAAAAAF4+qkmGIugg18=" kind="external">
+					<ownedMember xmi:id="AAAAAAF4+q6gfIzSdmY=" name="reset" visibility="public" xmi:type="uml:AnyReceiveEvent"/>
+					<trigger xmi:id="AAAAAAF5LIAQU4bFysE=" xmi:type="uml:Trigger" name="reset" event="AAAAAAF4+q6gfIzSdmY="/>
+					<trigger xmi:id="AAAAAAF4+q6gfIzSdmY=" name="reset" visibility="public" xmi:type="uml:AnyReceiveEvent"/>
+					<effect xmi:id="AAAAAAF5IkyfXI2p0Ys=" name="resetTime" visibility="public" isReentrant="true" xmi:type="uml:OpaqueBehavior"/>
+				</transition>
+				<transition xmi:id="AAAAAAF4+uD1Lo0oK5I=" visibility="public" xmi:type="uml:Transition" source="AAAAAAF4+qnaYIvOtKk=" target="AAAAAAF4+qn144v0+uA=" kind="external">
+					<ownedMember xmi:id="AAAAAAF4+uEMv40622k=" name="startstop" visibility="public" xmi:type="uml:AnyReceiveEvent"/>
+					<trigger xmi:id="AAAAAAF5LIAQU4bGdnc=" xmi:type="uml:Trigger" name="startstop" event="AAAAAAF4+uEMv40622k="/>
+					<trigger xmi:id="AAAAAAF4+uEMv40622k=" name="startstop" visibility="public" xmi:type="uml:AnyReceiveEvent"/>
+					<effect xmi:id="AAAAAAF5IkzJao2tDno=" name="startTime" visibility="public" isReentrant="true" xmi:type="uml:OpaqueBehavior"/>
+				</transition>
+			</region>
+		</packagedElement>
+	</uml:Model>
+</xmi:XMI>
