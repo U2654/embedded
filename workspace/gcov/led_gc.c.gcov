@@ -1,0 +1,51 @@
+        -:    0:Source:src/led_gc.c
+        -:    0:Graph:.pio/build/redv-vp/src/led_gc.gcno
+        -:    0:Data:.pio/build/redv-vp/src/led_gc.gcda
+        -:    0:Runs:0
+        -:    0:Programs:0
+        -:    1:#include "platform.h"
+        -:    2:#include "wrap.h"
+        -:    3:#include "startup.h"
+        -:    4:#include "gcov.h"
+        -:    5:
+        -:    6://typedef unsigned int uint32_t;
+        -:    7:
+        -:    8:#define REG(P) (*(volatile uint32_t *)(P))
+        -:    9:
+        -:   10:#define GPIO_BASE 0x10012000
+        -:   11:#define GPIO_INPUT_EN 0x4
+        -:   12:#define GPIO_OUTPUT_EN 0x8
+        -:   13:#define GPIO_OUTPUT_VAL 0xc
+        -:   14:#define GPIO_IOF_EN 0x38
+        -:   15:
+        -:   16:#define BLUE_LED 5
+        -:   17:
+function main called 1 returned 100% blocks executed 100%
+        1:   18:int main(void)
+        -:   19:{
+        1:   20:	_init();
+call    0 returned 100%
+        -:   21:	// setup LED as output
+        1:   22:	REG(GPIO_BASE + GPIO_IOF_EN) &= ~(1 << BLUE_LED);
+        1:   23:	REG(GPIO_BASE + GPIO_INPUT_EN) &= ~(1 << BLUE_LED);
+        1:   24:	REG(GPIO_BASE + GPIO_OUTPUT_EN) |= 1 << BLUE_LED;
+        1:   25:	REG(GPIO_BASE + GPIO_OUTPUT_VAL) |= (1 << BLUE_LED);
+        -:   26:
+        1:   27:	volatile uint32_t i = 0, j = 0;
+       11:   28:	while (j++ < 10)
+branch  0 taken 91%
+branch  1 taken 9% (fallthrough)
+        -:   29:	{
+        -:   30:		// toggle only blue LED
+       10:   31:		REG(GPIO_BASE + GPIO_OUTPUT_VAL) &= ~(1 << BLUE_LED);
+        -:   32:		// wait..
+       10:   33:		waitcount();
+call    0 returned 100%
+        -:   34:
+       10:   35:		REG(GPIO_BASE + GPIO_OUTPUT_VAL) |= (1 << BLUE_LED);
+       10:   36:		waitcount();
+call    0 returned 100%
+        -:   37:	}
+        -:   38:}
+        -:   39:
+        -:   40:
