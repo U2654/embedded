@@ -1,6 +1,7 @@
 /* FreeRTOS.org includes. */
 #include "FreeRTOS.h"
 #include "task.h"
+#include "startup.h"
 #include "wrap.h"
 
 /*-----------------------------------------------------------*/

@@ -1,6 +1,7 @@
 #include "encoding.h"
 #include "platform.h"
 #include "wrap.h"
+#include "startup.h"
 
 void delay(uint32_t f_milliseconds)
 {
@@ -36,6 +37,7 @@ const char* g_text = "Hello";
 
 int main(int argc, char **argv)
 {
+	_init();
 	uart_init();
 
 	while(1)
@@ -49,4 +51,16 @@ int main(int argc, char **argv)
 		delay(1000);
 	}
 	return 0;
+}
+
+void vSendString( const char * pcString )
+{
+const uint32_t ulTxFifoFullBit = 0x80000000UL;
+
+	while( *pcString != 0x00 )
+	{
+		while( ( UART0_REG( UART_REG_TXFIFO ) & ulTxFifoFullBit ) != 0UL );
+		UART0_REG( UART_REG_TXFIFO ) = *pcString;
+		pcString++;
+	}
 }

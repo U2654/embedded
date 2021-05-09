@@ -53,7 +53,9 @@
 #include <task.h>
 
 #include "platform.h"
+#include "startup.h"
 #include "wrap.h"
+
 
 /* Set mainCREATE_SIMPLE_BLINKY_DEMO_ONLY to one to run the simple blinky demo,
 or 0 to run the more comprehensive test and demo application. */

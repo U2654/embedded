@@ -1,6 +1,7 @@
 #include "encoding.h"
 #include "platform.h"
 #include "wrap.h"
+#include "startup.h"
 #include <stdio.h>
 
 #define I2C_SL_ADDR 0x1d

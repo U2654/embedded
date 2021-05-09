@@ -1,6 +1,7 @@
 #include "encoding.h"
 #include "platform.h"
 #include "wrap.h"
+#include "startup.h"
 #include <stdio.h>
 
 #define REG(P) (*(volatile uint32_t *) (P))
@@ -19,7 +20,7 @@ int main (void)
 	volatile uint32_t i = 0;
 	while(1)
 	{
-		printf("LED off\n");
+		printf("LED off 12345\n");
 		// toggle only blue LED
 		REG(GPIO_BASE + GPIO_OUTPUT_VAL) &= ~(1 << BLUE_LED);
 		// wait..

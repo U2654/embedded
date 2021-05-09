@@ -2,6 +2,7 @@
 #include "encoding.h"
 #include "platform.h"
 #include "wrap.h"
+#include "startup.h"
 #include <stdio.h>
 
 #define IOF_I2C_SDA 12

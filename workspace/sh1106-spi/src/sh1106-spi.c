@@ -3,6 +3,7 @@
 #include "encoding.h"
 #include "platform.h"
 #include "wrap.h"
+#include "startup.h"
 #include "display.h"
 #include "font.h"
 
