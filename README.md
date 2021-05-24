@@ -1,4 +1,4 @@
-# Tools for Embedded Systems Lab Summer Term 2021
+# Tools for Embedded Systems Lab
 
 ## Objective
 The aim of this repository is to provide a solution for lab assignments relating to distance teaching of the embedded systems course at the Bielefeld University of Applied Sciences, Campus Minden.
