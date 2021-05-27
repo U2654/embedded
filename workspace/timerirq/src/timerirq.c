@@ -17,7 +17,7 @@
 
 #define BLUE_LED 5
 
-void irq_handler() __attribute((interrupt));
+void irq_handler() __attribute__((interrupt));
 
 void set_timer1s()
 {

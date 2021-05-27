@@ -22,7 +22,7 @@ typedef unsigned int uint32_t;
 #define BLUE_LED 5
 #define BUTTON 18
 
-void irq_handler() __attribute((interrupt));
+void irq_handler() __attribute__((interrupt));
 
 void init_gpio()
 {
