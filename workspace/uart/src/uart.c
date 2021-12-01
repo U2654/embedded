@@ -22,6 +22,7 @@ void uart_init()
     // see ch. 18.6 and 18.7
     UART0_REG(UART_REG_TXCTRL) |= UART_TXEN;
     UART0_REG(UART_REG_RXCTRL) |= UART_RXEN;
+    UART0_REG(UART_REG_DIV) = 16000000 / (115200 - 1);
 }
 
 void uart_putc(const char f_char)
@@ -33,11 +34,21 @@ void uart_putc(const char f_char)
 	UART0_REG(UART_REG_TXFIFO) = f_char;
 }
 
+// init to use 16 Mhz hfxosc
+void clock_init()
+{
+	// init
+	PRCI_REG(PRCI_PLLCFG) = PLL_REFSEL(1) | PLL_BYPASS(1);
+	// activate
+	PRCI_REG(PRCI_PLLCFG) |= PLL_SEL(1);
+}
+
+
 const char* g_text = "Hello";
 
 int main(int argc, char **argv)
 {
-	_init();
+	clock_init();
 	uart_init();
 
 	while(1)
