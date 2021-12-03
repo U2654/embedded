@@ -82,6 +82,23 @@ We use the RISC-V based virtual prototyp of AGRA Uni Bremen (https://github.com/
 	Push the connect button (second from left hand side). You should see a blinking led in the vp-redboard. 
 	![Screenshot](screenshot.png)
 
+## For Windows: WSLg as an alternative to a virtual machine
+
+WSLg is the Linux subsystem for Windows 11 and allows various Linux distributions to run natively on Windows.
+
+There is also the Linux subsystem for Window 10, which is called WSL2, but this has no automatic graphical output.
+
+[Click here to install WSL](https://github.com/microsoft/wslg)
+
+Even though Linux-programs in Windows can be started with graphical output using WSLg, some still prefer a classic desktop. With the help of RDP this can be achieved.
+
+[Set up RDP with WSL](https://www.nextofwindows.com/how-to-enable-wsl2-ubuntu-gui-and-use-rdp-to-remote)
+
+From now on you can simply follow the Linux instructions.
+
+Tip: The Windows version of Visual Studio Code can also be used for Linux.
+
+<img src="./vp-redboard_windows.png" alt="vp-breadboard" width="100%"/>
 	
 	
 
