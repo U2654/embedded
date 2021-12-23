@@ -20,7 +20,7 @@ Verbinde den PCF8591 über I2C mit dem RED-V Board. Initialisiere die Verbindung
 
 ## Aufgabe 3 - WS2812B
 
-Letztlich verbinde den WS2812B mit dem Board. Die Ansteuerung erfolgt, indem hintereinander für die 10 LEDs die RGB-Farben gemäß dem Protokoll des Datenblatts übertragen werden. Eine Farbe wird mit 24 Bits für die RGB-Werte übertragen. Dabei werden die Werte 0 und 1 unterschiedlich kodiert (s. Datenblatt 0 code und 1 code). Die Transferzeiten sind sehr gering, so dass man diesen Teil des Bit-Banging direkt in Assembler umsetzen sollte und anhand der Taktzyklen auf die Transferzeiten schließt. Um die richtigen Transferzeiten zu treffen, sollte mit der Annahme gearbeitet werden, dass der Prozessor mit 16 MHz getaktet ist und ein _normaler_ Befehl (z.B. addi, nop) einen Takt dauert, ein Sprungbefehl kann mit vier Takten angenommen werden. 
+Letztlich verbinde den WS2812B mit dem Board. Die Ansteuerung erfolgt, indem hintereinander für die 10 LEDs die RGB-Farben gemäß dem Protokoll des Datenblatts übertragen werden. Eine Farbe wird mit 24 Bits für die RGB-Werte übertragen. Dabei werden die Werte 0 und 1 unterschiedlich kodiert (s. Datenblatt 0 code und 1 code). Die Transferzeiten sind sehr gering, so dass man diesen Teil des Bit-Banging direkt in Assembler umsetzen sollte und anhand der Taktzyklen auf die Transferzeiten schließt. Um die richtigen Transferzeiten zu treffen, sollte mit der Annahme gearbeitet werden, dass der Prozessor mit 16 MHz getaktet ist und ein _normaler_ Befehl (z.B. addi, nop) einen Takt dauert, ein Befehl eines Speicherzugriffs (z.B. sw, lw) kann mit drei Takten angenommen werden. 
 
 
 
